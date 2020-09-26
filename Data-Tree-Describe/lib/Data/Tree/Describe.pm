@@ -54,6 +54,20 @@ use Carp qw(cluck longmess shortmess);
 # Version of this software
 our $VERSION = '0.004';
 
+=head1 METHODS
+
+Callable methods
+
+=head2 new
+
+Create a new annotated data tree
+
+Takes 1 argument a $obj
+
+BEWARE large objects will take some time to be processed.
+
+=cut
+
 # Primary code block
 sub new($class,$input = {}) {
 
@@ -62,12 +76,26 @@ sub new($class,$input = {}) {
         paths   =>  []
     }, $class;
 
-    $self->{tree} = $self->describe_node($input);
+    $self->{tree} = $self->_digest($input);
 
     return $self; 
 }
 
-sub describe_node($self,$tree,$stash = {}) {
+=head2 paths_list
+
+Return a list of all paths in the format: [['child name',TYPE]....]
+
+Of the list returned, the first element [0] will always have a blank 'child name'
+as it is representative of the parent node.
+
+=cut 
+
+sub paths_list($self) {
+    return reverse @{$self->{paths}};
+}
+
+# This is the main worker routing that loops through the data structure
+sub _digest($self,$tree,$stash = { depth=>0 }) {
     my $type    =   ref($tree) ? ref($tree) : 'ELEMENT';
 
     my @json_path       =   ();
@@ -76,16 +104,27 @@ sub describe_node($self,$tree,$stash = {}) {
     }
 
     # Handle booleans more nicely, I imagine there are more of these to deal with
-    if ($type eq 'JSON::PP::Boolean')   { 
+    if ($type eq 'JSON::PP::Boolean')   {
         $type = 'BOOLEAN';
     }
 
+    # Calculate the depth before we iterate further down
+    $stash->{_depth}    =   $stash->{depth}++;
+
+    # Dependant on the type of item recurse over them correctly
     if      ($type eq 'HASH')   {
         $stash->{_count}    =   scalar(keys %{$tree});
         foreach my $child (keys %{$tree})   { 
             my @passed_path             =   (@json_path,$child);
+            my $depth                   =   $stash->{depth};
             $stash->{_data}->{$child}   =
-                $self->describe_node($tree->{$child},{ path=>[@passed_path] });
+                $self->_digest(
+                    $tree->{$child},
+                    { 
+                        path    =>  [@passed_path], 
+                        depth   =>  $stash->{depth}
+                    }
+                );
         }
     }
     elsif   ($type eq 'ARRAY')  {
@@ -97,15 +136,28 @@ sub describe_node($self,$tree,$stash = {}) {
             # For this we will change the hash-memory-reference to simply HASH
             if (ref($child) eq 'HASH') {
                 $stash->{_data}->{HASH}     =
-                    $self->describe_node($child,{ path=>[@passed_path] });
+                    $self->_digest(
+                        $child,
+                        { 
+                            path    =>  [@passed_path],
+                            depth   =>  $stash->{depth}
+                        }
+                    ); 
             }
             else {
                 $stash->{_data}->{$child}   =
-                    $self->describe_node($child,{ path=>[@passed_path] });
+                    $self->_digest(
+                        $child,
+                        { 
+                            path    =>  [@passed_path],
+                            depth   =>  $stash->{depth}
+                        }
+                    );
             }
         }
     }
 
+    # Add in additional details about this node
     $stash->{_type}     =   $type;
     $stash->{_key}      =   $json_path[-1];
     $stash->{_path}     =   [@json_path];

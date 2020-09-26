@@ -1,7 +1,7 @@
 Revision history for Perl extension Math::Int64.
 
 {{$NEXT}}
-
+    - Updated documentation and added in paths_list function
     - Added link to the github to the POD
 
 0.003     2020-09-26 03:15:37 BST
