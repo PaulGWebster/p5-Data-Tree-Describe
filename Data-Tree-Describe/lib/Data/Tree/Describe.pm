@@ -116,6 +116,11 @@ sub describe_node($self,$tree,$stash = {}) {
 }
 
 
+=head1 CORROSPONDANCE
+
+Regarding bugs, featuire requests, patches, forks or other please view 
+the project on github here L<https://github.com/PaulGWebster/p5-Data-Tree-Describe>
+
 =head1 AUTHOR
 
 Paul G Webster <daemon@cpan.org>
