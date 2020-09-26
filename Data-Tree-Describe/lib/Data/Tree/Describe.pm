@@ -108,9 +108,6 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
         $type = 'BOOLEAN';
     }
 
-    # Calculate the depth before we iterate further down
-    $stash->{_depth}    =   $stash->{depth}++;
-
     # Dependant on the type of item recurse over them correctly
     if      ($type eq 'HASH')   {
         $stash->{_count}    =   scalar(keys %{$tree});
@@ -122,7 +119,7 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
                     $tree->{$child},
                     { 
                         path    =>  [@passed_path], 
-                        depth   =>  $stash->{depth}
+                        depth   =>  scalar(@passed_path)
                     }
                 );
         }
@@ -140,7 +137,7 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
                         $child,
                         { 
                             path    =>  [@passed_path],
-                            depth   =>  $stash->{depth}
+                            depth   =>  scalar(@passed_path)
                         }
                     ); 
             }
@@ -150,7 +147,7 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
                         $child,
                         { 
                             path    =>  [@passed_path],
-                            depth   =>  $stash->{depth}
+                            depth   =>  scalar(@passed_path)
                         }
                     );
             }
@@ -161,6 +158,7 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
     $stash->{_type}     =   $type;
     $stash->{_key}      =   $json_path[-1];
     $stash->{_path}     =   [@json_path];
+    $stash->{_depth}    =   delete $stash->{depth};
 
     push(@{$self->{paths}},[$stash->{_path},$type]);
 
