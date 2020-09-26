@@ -4,6 +4,8 @@ Revision history for Perl extension Math::Int64.
 
 0.002     2020-09-26 03:07:28 BST
 
+    - Checking release process via dist release (accidentally did it twice whoops)
+
 0.001     2020-09-26 03:06:59 BST
 
     - Created basic POD documentation
