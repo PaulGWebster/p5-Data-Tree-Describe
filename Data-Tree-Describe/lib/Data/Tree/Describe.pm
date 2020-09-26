@@ -103,6 +103,7 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
     }
 
     # Handle booleans more nicely, I imagine there are more of these to deal with
+    if ($type =~ m/Bool/i)   {
         $type = 'BOOLEAN';
     }
 
