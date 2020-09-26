@@ -52,7 +52,7 @@ use experimental qw(signatures);
 use Carp qw(cluck longmess shortmess);
 
 # Version of this software
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 # Primary code block
 sub new($class,$input = {}) {
