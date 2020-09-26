@@ -45,7 +45,6 @@ use warnings;
 
 # Internal perl modules (core,recommended)
 use utf8;
-use open qw(:std :utf8);
 use experimental qw(signatures);
 
 # External modules
@@ -104,7 +103,7 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
     }
 
     # Handle booleans more nicely, I imagine there are more of these to deal with
-    if ($type eq 'JSON::PP::Boolean')   {
+    if ($type =~ m/JSON::PP::Boolean/i)   {
         $type = 'BOOLEAN';
     }
 
