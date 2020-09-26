@@ -37,7 +37,6 @@ as how many children are in any HASH or ARRAY type.
 
 # Internal perl
 use v5.30.0;
-use feature 'say';
 
 # Internal perl modules (core)
 use strict;
@@ -48,7 +47,7 @@ use utf8;
 use experimental qw(signatures);
 
 # External modules
-use Carp qw(cluck longmess shortmess);
+use Carp qw(cluck croak longmess shortmess);
 
 # Version of this software
 our $VERSION = '0.006';
@@ -92,6 +91,22 @@ as it is representative of the parent node.
 # returned first.
 sub paths_list($self) {
     return reverse @{$self->{paths}};
+}
+
+=head2 extract
+
+Return a block of data starting from the point specified.
+
+Accepts 1 argument; the path in the format of a list ['some_node',3,'element']
+
+If you pass a blank or undefined list to the function it will return the entire
+tree, as it will presume you are selecting the root/base node.
+
+=cut
+
+sub extract($self,$path = []) {
+    if (ref($path) ne 'ARRAY') { croak 'Passed non-array value to extract' }
+    croak 'Not implemented';
 }
 
 # This is the main worker routing that loops through the data structure
