@@ -1,6 +1,8 @@
 Revision history for Perl extension Math::Int64.
 
 {{$NEXT}}
+
+0.006     2020-09-26 05:17:40 BST
     - Removed pointless utf8/open dragged in from template
     - Made the type match for booleans a case insensitive regex
     - Added in basis for extract function
