@@ -1,6 +1,7 @@
 Revision history for Perl extension Math::Int64.
 
 {{$NEXT}}
+    - Added in alternative depth calculation
 
 0.004     2020-09-26 04:17:46 BST
     - Updated documentation and added in paths_list function
