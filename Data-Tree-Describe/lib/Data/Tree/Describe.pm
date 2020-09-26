@@ -76,7 +76,6 @@ sub new($class,$input = {}) {
     }, $class;
 
     $self->{tree} = $self->_digest($input);
-
     return $self; 
 }
 
@@ -89,6 +88,8 @@ as it is representative of the parent node.
 
 =cut 
 
+# Reverse this as due to the way the recursion works, the base element is
+# returned first.
 sub paths_list($self) {
     return reverse @{$self->{paths}};
 }
