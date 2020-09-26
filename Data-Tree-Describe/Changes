@@ -1,6 +1,7 @@
 Revision history for Perl extension Math::Int64.
 
 {{$NEXT}}
+    - Tidied up duplicated code into its own function
 
 0.006     2020-09-26 05:17:40 BST
     - Removed pointless utf8/open dragged in from template
