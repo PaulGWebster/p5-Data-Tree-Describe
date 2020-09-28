@@ -1,6 +1,8 @@
 Revision history for Perl extension Math::Int64.
 
 {{$NEXT}}
+
+0.008     2020-09-28 12:51:23 BST
     - Reverted code base to version 6 due to breaking recursion in 0.007
 
 0.007     2020-09-26 05:29:29 BST
