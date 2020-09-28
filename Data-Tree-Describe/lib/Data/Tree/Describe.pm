@@ -60,7 +60,7 @@ Callable methods
 
 Create a new annotated data tree
 
-Takes 1 argument an $obj
+Takes 1 argument an $object
 
 BEWARE large objects will take some time to be processed.
 
