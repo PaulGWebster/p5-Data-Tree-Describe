@@ -128,8 +128,15 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
         $stash->{_count}    =   scalar(keys %{$tree});
         foreach my $child (keys %{$tree})   { 
             my @passed_path             =   (@json_path,$child);
+            my $depth                   =   $stash->{depth};
             $stash->{_data}->{$child}   =
-                $self->_digest_next_node($child,@passed_path);
+                $self->_digest(
+                    $tree->{$child},
+                    { 
+                        path    =>  [@passed_path], 
+                        depth   =>  scalar(@passed_path)
+                    }
+                );
         }
     }
     elsif   ($type eq 'ARRAY')  {
@@ -141,11 +148,23 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
             # For this we will change the hash-memory-reference to simply HASH
             if (ref($child) eq 'HASH') {
                 $stash->{_data}->{HASH}     =
-                    $self->_digest_next_node($child,@passed_path);
+                    $self->_digest(
+                        $child,
+                        { 
+                            path    =>  [@passed_path],
+                            depth   =>  scalar(@passed_path)
+                        }
+                    ); 
             }
             else {
                 $stash->{_data}->{$child}   =
-                    $self->_digest_next_node($child,@passed_path);
+                    $self->_digest(
+                        $child,
+                        { 
+                            path    =>  [@passed_path],
+                            depth   =>  scalar(@passed_path)
+                        }
+                    );
             }
         }
     }
@@ -159,16 +178,6 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
     push(@{$self->{paths}},[$stash->{_path},$type]);
 
     return $stash;
-}
-
-sub _digest_next_node($self,$child,@passed_path) {
-    return $self->_digest(
-        $child,
-        { 
-            path    =>  [@passed_path],
-            depth   =>  scalar(@passed_path)
-        }
-    );
 }
 
 
