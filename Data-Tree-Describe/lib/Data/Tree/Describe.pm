@@ -60,7 +60,7 @@ Callable methods
 
 Create a new annotated data tree
 
-Takes 1 argument a $obj
+Takes 1 argument an $obj
 
 BEWARE large objects will take some time to be processed.
 
@@ -150,8 +150,9 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
                 $stash->{_data}->{HASH}     =
                     $self->_digest(
                         $child,
+                        _stash_compile(@passed_path)
                         { 
-                            path    =>  [@passed_path],
+                            path    =>  [],
                             depth   =>  scalar(@passed_path)
                         }
                     ); 
