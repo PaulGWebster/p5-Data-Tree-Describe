@@ -50,7 +50,7 @@ use experimental qw(signatures);
 use Carp qw(cluck croak longmess shortmess);
 
 # Version of this software
-our $VERSION = '0.008';
+our $VERSION = '0.009';
 
 =head1 METHODS
 
