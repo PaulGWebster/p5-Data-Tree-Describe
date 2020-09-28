@@ -80,7 +80,7 @@ sub new($class,$input = {}) {
 
 =head2 paths_list
 
-Return a list of all paths in the format: [['child name',TYPE]....]
+Return a list of all paths in the format: [element,element,element],[element,element]
 
 Of the list returned, the first element [0] will always have a blank 'child name'
 as it is representative of the parent node.
@@ -175,7 +175,7 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
     $stash->{_path}     =   [@json_path];
     $stash->{_depth}    =   delete $stash->{depth};
 
-    push(@{$self->{paths}},[$stash->{_path},$type]);
+    push(@{$self->{paths}},$stash->{_path});
 
     return $stash;
 }
