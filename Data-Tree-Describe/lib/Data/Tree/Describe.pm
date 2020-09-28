@@ -50,7 +50,7 @@ use experimental qw(signatures);
 use Carp qw(cluck croak longmess shortmess);
 
 # Version of this software
-our $VERSION = '0.009';
+our $VERSION = '0.008';
 
 =head1 METHODS
 
@@ -150,9 +150,8 @@ sub _digest($self,$tree,$stash = { depth=>0 }) {
                 $stash->{_data}->{HASH}     =
                     $self->_digest(
                         $child,
-                        _stash_compile(@passed_path)
                         { 
-                            path    =>  [],
+                            path    =>  [@passed_path],
                             depth   =>  scalar(@passed_path)
                         }
                     ); 
